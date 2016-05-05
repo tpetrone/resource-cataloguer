@@ -1,24 +1,29 @@
-# README
+Resources Catalog API
+====================
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Provides
+--------
 
-Things you may want to cover:
+* POST /resources
+* PUT /resources/:id
+* GET /resources/:id/metadata
+* GET /resources/metadata
+* GET /resources/sensors
+* GET /resources/actuators
+* GET /resources/search
 
-* Ruby version
+Needs
+-----
 
-* System dependencies
+* resources GET /status
+* consumers POST /resources/:id
+* consumers PUT /resources/:id
 
-* Configuration
 
-* Database creation
+Useful links
+============
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* [Project description](https://social.stoa.usp.br/poo2016/projeto/projeto-plataforma-cidades-inteligentes) @ STOA
+* [Resources caralog service description](https://social.stoa.usp.br/poo2016/projeto/grupo-2-servico-de-catalogo-de-recursos) @ STOA
+* [Group Repository](https://gitlab.com/groups/smart-city-platform)
+* [email list](https://groups.google.com/forum/#!forum/pci-lideres-equipe-de-organizacao-poo-ime-2016)
