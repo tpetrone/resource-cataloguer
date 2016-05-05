@@ -1,0 +1,2 @@
+class BasicResource < ApplicationRecord
+end
