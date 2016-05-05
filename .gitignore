@@ -13,9 +13,9 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+/tmp/*
 !/log/.keep
-/tmp
+!/tmp/.keep
 
-# Text editor swap files
-*.swp
-*.swo
+# Ignore Byebug command history file.
+.byebug_history
