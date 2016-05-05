@@ -1,3 +1,5 @@
+![Build Status](https://gitlab.com/smart-city-platform/resources-catalog/badges/master/build.svg)
+
 Resources Catalog API
 ====================
 
