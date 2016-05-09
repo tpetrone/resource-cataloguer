@@ -5,3 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+BasicResource.create(uri: "sbrubles.com", sensor: true, actuator: false)
+BasicResource.create(uri: "notsbrubles.com", sensor: false, actuator: true)
+BasicResource.create(uri: "maybesbrubles.com", sensor: true, actuator: true)
