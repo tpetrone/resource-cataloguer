@@ -10,4 +10,9 @@ class BasicResourcesController < ApplicationController
     render json: BasicResource.all_actuators
   end
 
+  # GET /resources/:id
+  def show
+    render json: BasicResource.find(params[:id])
+  end
+
 end
