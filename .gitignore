@@ -30,3 +30,6 @@ coverage/*
 # gemset files
 /.ruby-gemset
 /.ruby-version
+
+# sublime workspace
+/resources-catalog.sublime-workspace
