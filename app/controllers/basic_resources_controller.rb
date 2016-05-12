@@ -4,7 +4,7 @@ class BasicResourcesController < ApplicationController
   def index
     resource = BasicResource.new
     resource.save
-    render json: resource, status: 201
+    render json: resource, status: 201, location: basic_resource_url(resource) #this parameter must be passed according to the HTTP documentation FIXME
   end
 
   # GET /resources/sensors

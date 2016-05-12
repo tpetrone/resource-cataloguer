@@ -9,8 +9,9 @@ RSpec.describe BasicResourcesController, :type => :controller do
     end
 
     it { expect(response.status).to eq(201) }
-
-    
+    it 'is expected to return the location of the new resource in the header' do
+      expect(response.location).to match(/resources\/\d+/)
+    end
 
   end
 
