@@ -45,7 +45,7 @@ RSpec.describe BasicResourcesController, :type => :controller do
 
   describe '#show' do
 
-    let!(:resource) { BasicResource.create(sensor: true, actuator: true, uri: "qwedsa.com") }
+    let!(:resource) { BasicResource.create(sensor: true, actuator: true, uri: "qwedsa.com", lat: 20, long: 20, status: "stopped", collect_interval: 5, description: "I am a dummy sensor") }
 
     before :each do
       get :show, params: {id: 1}, format: :json
@@ -57,6 +57,11 @@ RSpec.describe BasicResourcesController, :type => :controller do
       expect(response.body).to include('"uri":"qwedsa.com"')
       expect(response.body).to include('"sensor":true')
       expect(response.body).to include('"actuator":true')
+      expect(response.body).to include('"lat":20')
+      expect(response.body).to include('"long":20')
+      expect(response.body).to include('"status":"stopped"')
+      expect(response.body).to include('"collect_interval":5')
+      expect(response.body).to include('"description":"I am a dummy sensor"')
     end
 
   end
