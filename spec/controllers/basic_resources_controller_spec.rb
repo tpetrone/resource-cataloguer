@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe BasicResourcesController, :type => :controller do
 
-  describe '#index' do
+  describe '#create' do
 
     before :each do
-      post 'index', format: :json
+      post 'create', format: :json
     end
 
     it { expect(response.status).to eq(201) }
