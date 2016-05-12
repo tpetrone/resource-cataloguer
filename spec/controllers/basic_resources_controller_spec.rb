@@ -2,6 +2,18 @@ require 'rails_helper'
 
 RSpec.describe BasicResourcesController, :type => :controller do
 
+  describe '#index' do
+
+    before :each do
+      post 'index', format: :json
+    end
+
+    it { expect(response.status).to eq(201) }
+
+    
+
+  end
+
   describe '#index_sensors' do
 
     before :each do
