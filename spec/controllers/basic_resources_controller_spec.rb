@@ -5,12 +5,30 @@ RSpec.describe BasicResourcesController, :type => :controller do
   describe '#create' do
 
     before :each do
-      post 'create', format: :json
+      post 'create', params: {uri: "example.com",
+                              sensor: true,
+                              actuator: true,
+                              lat: 20,
+                              long: 20,
+                              status: "stopped",
+                              collect_interval: 5,
+                              description: "I am a dummy sensor"}, format: :json
     end
 
     it { expect(response.status).to eq(201) }
     it 'is expected to return the location of the new resource in the header' do
       expect(response.location).to match(/resources\/\d+/)
+    end
+    it 'is expected to return the resource in JSON' do
+      expect(response.body).to match(/"id":\d+/)
+      expect(response.body).to include('"uri":"example.com"')
+      expect(response.body).to include('"sensor":true')
+      expect(response.body).to include('"actuator":true')
+      expect(response.body).to include('"lat":20')
+      expect(response.body).to include('"long":20')
+      expect(response.body).to include('"status":"stopped"')
+      expect(response.body).to include('"collect_interval":5')
+      expect(response.body).to include('"description":"I am a dummy sensor"')
     end
 
   end
@@ -68,10 +86,17 @@ RSpec.describe BasicResourcesController, :type => :controller do
 
   describe '#update' do
 
-    let!(:resource) { BasicResource.create(sensor: true, actuator: true, uri: "qwedsa.com") }
+    let!(:resource) { BasicResource.create(sensor: true,
+                                           actuator: true,
+                                           lat: 20,
+                                           long: 20,
+                                           status: "stopped",
+                                           collect_interval: 5,
+                                           description: "I am a dummy sensor",
+                                           uri: "qwedsa.com") }
 
     before :each do
-      put :update, params: {id: resource.id, sensor: false, uri: "changed.com"}, format: :json
+      put :update, params: {id: resource.id, sensor: false, uri: "changed.com", actuator: true}, format: :json
     end
 
     it { expect(response.status).to eq(204) }
@@ -80,6 +105,11 @@ RSpec.describe BasicResourcesController, :type => :controller do
       expect(updated_resource.uri).to eq('changed.com')
       expect(updated_resource.sensor).to eq(false)
       expect(updated_resource.actuator).to eq(true)
+      expect(updated_resource.lat).to eq(20)
+      expect(updated_resource.long).to eq(20)
+      expect(updated_resource.status).to eq("stopped")
+      expect(updated_resource.collect_interval).to eq(5)
+      expect(updated_resource.description).to eq("I am a dummy sensor")
     end
   end
 
