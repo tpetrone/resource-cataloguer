@@ -61,4 +61,21 @@ RSpec.describe BasicResourcesController, :type => :controller do
 
   end
 
+  describe '#update' do
+
+    let!(:resource) { BasicResource.create(sensor: true, actuator: true, uri: "qwedsa.com") }
+
+    before :each do
+      put :update, params: {id: resource.id, sensor: false, uri: "changed.com"}, format: :json
+    end
+
+    it { expect(response.status).to eq(204) }
+    it 'is expected to update resource data' do
+      updated_resource = BasicResource.find(resource.id)
+      expect(updated_resource.uri).to eq('changed.com')
+      expect(updated_resource.sensor).to eq(false)
+      expect(updated_resource.actuator).to eq(true)
+    end
+  end
+
 end
