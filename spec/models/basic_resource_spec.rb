@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe BasicResource, :type => :model do
+
+  describe '#create' do
+    let(:resource) { described_class.create! }
+    it "automatically creates an uuid" do
+      expect(resource.uuid).to_not be_nil
+    end
+
+    it "has sensor and actuator flag as false by default" do
+      expect(resource.sensor?).to be false
+      expect(resource.actuator?).to be false
+    end
+  end
   
   describe '.all_sensors' do
 
