@@ -3,6 +3,21 @@
 Resources Catalog API
 ====================
 
+Environment Setup
+-----------------
+
+* Install RVM
+* Run on terminal: ```$ rvm install 2.3.1```
+* In the project directory, run:
+  * ```$ gem install bundle```
+  * ```$ bundle install```
+  * ```$ bundle exec rake db:create```
+  * ```$ bundle exec rake db:migrate```
+* Run the tests:
+  * ```$ rspec```
+
+You should see all tests passing =)
+
 Provides
 --------
 
