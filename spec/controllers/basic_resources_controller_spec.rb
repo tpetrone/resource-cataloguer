@@ -1,18 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe BasicResourcesController, :type => :controller do
-
+  let(:json) {JSON.parse(response.body)}
   describe '#create' do
 
     before :each do
-      post 'create', params: {uri: "example.com",
-                              sensor: true,
-                              actuator: true,
-                              lat: 20,
-                              long: 20,
-                              status: "stopped",
-                              collect_interval: 5,
-                              description: "I am a dummy sensor"}, format: :json
+      post 'create',
+        params: {
+          data: {
+            uri: "example.com",
+            lat: 20,
+            lon: 20,
+            status: "stopped",
+            collect_interval: 5,
+            description: "I am a dummy sensor"
+          }
+        },
+      format: :json
     end
 
     it { expect(response.status).to eq(201) }
@@ -20,15 +24,13 @@ RSpec.describe BasicResourcesController, :type => :controller do
       expect(response.location).to match(/resources\/\d+/)
     end
     it 'is expected to return the resource in JSON' do
-      expect(response.body).to match(/"id":\d+/)
-      expect(response.body).to include('"uri":"example.com"')
-      expect(response.body).to include('"sensor":true')
-      expect(response.body).to include('"actuator":true')
-      expect(response.body).to include('"lat":20')
-      expect(response.body).to include('"long":20')
-      expect(response.body).to include('"status":"stopped"')
-      expect(response.body).to include('"collect_interval":5')
-      expect(response.body).to include('"description":"I am a dummy sensor"')
+      expect(json["data"]["id"].class).to eq(Fixnum)
+      expect(json["data"]["uri"]).to eq("example.com")
+      expect(json["data"]["lat"]).to eq(20)
+      expect(json["data"]["lon"]).to eq(20)
+      expect(json["data"]["status"]).to eq('stopped')
+      expect(json["data"]["collect_interval"]).to eq(5)
+      expect(json["data"]["description"]).to eq("I am a dummy sensor")
     end
 
   end
@@ -63,7 +65,7 @@ RSpec.describe BasicResourcesController, :type => :controller do
 
   describe '#show' do
 
-    let!(:resource) { BasicResource.create(sensor: true, actuator: true, uri: "qwedsa.com", lat: 20, long: 20, status: "stopped", collect_interval: 5, description: "I am a dummy sensor") }
+    let!(:resource) { BasicResource.create(sensor: true, actuator: true, uri: "qwedsa.com", lat: 20, lon: 20, status: "stopped", collect_interval: 5, description: "I am a dummy sensor") }
 
     before :each do
       get :show, params: {id: 1}, format: :json
@@ -76,7 +78,7 @@ RSpec.describe BasicResourcesController, :type => :controller do
       expect(response.body).to include('"sensor":true')
       expect(response.body).to include('"actuator":true')
       expect(response.body).to include('"lat":20')
-      expect(response.body).to include('"long":20')
+      expect(response.body).to include('"lon":20')
       expect(response.body).to include('"status":"stopped"')
       expect(response.body).to include('"collect_interval":5')
       expect(response.body).to include('"description":"I am a dummy sensor"')
@@ -89,7 +91,7 @@ RSpec.describe BasicResourcesController, :type => :controller do
     let!(:resource) { BasicResource.create(sensor: true,
                                            actuator: true,
                                            lat: 20,
-                                           long: 20,
+                                           lon: 20,
                                            status: "stopped",
                                            collect_interval: 5,
                                            description: "I am a dummy sensor",
@@ -106,7 +108,7 @@ RSpec.describe BasicResourcesController, :type => :controller do
       expect(updated_resource.sensor).to eq(false)
       expect(updated_resource.actuator).to eq(true)
       expect(updated_resource.lat).to eq(20)
-      expect(updated_resource.long).to eq(20)
+      expect(updated_resource.lon).to eq(20)
       expect(updated_resource.status).to eq("stopped")
       expect(updated_resource.collect_interval).to eq(5)
       expect(updated_resource.description).to eq("I am a dummy sensor")
