@@ -1,4 +1,5 @@
 class BasicResource < ApplicationRecord
+  before_create :create_uuid
 
   def self.all_sensors
     BasicResource.where(sensor: true)
@@ -8,4 +9,9 @@ class BasicResource < ApplicationRecord
     BasicResource.where(actuator: true)
   end
 
+  private
+
+    def create_uuid
+      self.uuid = SecureRandom.uuid
+    end
 end

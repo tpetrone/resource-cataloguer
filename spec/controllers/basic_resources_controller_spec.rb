@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe BasicResourcesController, :type => :controller do
   let(:json) {JSON.parse(response.body)}
   describe '#create' do
-
     before :each do
+      BasicResource.destroy_all
       post 'create',
         params: {
           data: {
@@ -33,6 +33,14 @@ RSpec.describe BasicResourcesController, :type => :controller do
       expect(json["data"]["description"]).to eq("I am a dummy sensor")
     end
 
+    it 'is expected to create a resource' do
+      expect(BasicResource.count).to be(1)
+    end
+
+    it 'generates a uuid to the new resource' do
+      resource = BasicResource.last
+      expect(resource.uuid).to_not be_nil
+    end
   end
 
   describe '#index_sensors' do
