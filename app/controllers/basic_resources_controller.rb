@@ -1,4 +1,7 @@
+require 'notification'
+
 class BasicResourcesController < ApplicationController
+  include SmartCities::Notification
 
   # POST /resources
   def create
@@ -27,6 +30,7 @@ class BasicResourcesController < ApplicationController
   def update
     resource = BasicResource.find_by_uuid(params[:uuid])
     resource.update(component_params)
+    notify_resource_update(resource)
   end
 
   private

@@ -1,0 +1,6 @@
+# Be sure to restart your server when you modify this file
+
+# do not include a final slash after the URL
+services:
+  collector: "http://localhost:8080"
+  actuator: "http://localhost:8081"

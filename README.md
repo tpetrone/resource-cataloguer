@@ -44,3 +44,8 @@ Useful links
 * [Resources caralog service description](https://social.stoa.usp.br/poo2016/projeto/grupo-2-servico-de-catalogo-de-recursos) @ STOA
 * [Group Repository](https://gitlab.com/groups/smart-city-platform)
 * [email list](https://groups.google.com/forum/#!forum/pci-lideres-equipe-de-organizacao-poo-ime-2016)
+
+Design questions
+==============
+
+* Should we notify external services upon resource creation or wait for them to query for new resources? We could notify the service right after its creation.
