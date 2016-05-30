@@ -26,14 +26,7 @@ class BasicResourcesController < ApplicationController
   # PUT /resources/:id
   def update
     resource = BasicResource.find(params[:id])
-    resource.update(uri: params[:uri] || resource.uri,
-                    lat: params[:lat] || resource.lat,
-                    lon: params[:lon] || resource.lon,
-                    status: params[:status] || resource.status,
-                    collect_interval: params[:collect_interval] || resource.collect_interval,
-                    description: params[:description] || resource.description,
-                    sensor: params[:sensor] || resource.sensor,
-                    actuator: params[:actuator] || resource.actuator)
+    resource.update(component_params)
   end
 
   private
