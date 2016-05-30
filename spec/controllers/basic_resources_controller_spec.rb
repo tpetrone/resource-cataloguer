@@ -73,23 +73,31 @@ RSpec.describe BasicResourcesController, :type => :controller do
 
   describe '#show' do
 
-    let!(:resource) { BasicResource.create(sensor: true, actuator: true, uri: "qwedsa.com", lat: 20, lon: 20, status: "stopped", collect_interval: 5, description: "I am a dummy sensor") }
+    let!(:resource) { BasicResource.create(sensor: true,
+                                           actuator: true,
+                                           uri: "qwedsa.com",
+                                           lat: 20,
+                                           lon: 20,
+                                           status: "stopped",
+                                           collect_interval: 5,
+                                           description: "I am a dummy sensor")}
 
     before :each do
-      get :show, params: {id: 1}, format: :json
+      get :show, params: {uuid: resource.uuid}, format: :json
     end
 
     it { expect(response.status).to eq(200) }
 
     it 'is expected to return the resource in JSON' do
-      expect(response.body).to include('"uri":"qwedsa.com"')
-      expect(response.body).to include('"sensor":true')
-      expect(response.body).to include('"actuator":true')
-      expect(response.body).to include('"lat":20')
-      expect(response.body).to include('"lon":20')
-      expect(response.body).to include('"status":"stopped"')
-      expect(response.body).to include('"collect_interval":5')
-      expect(response.body).to include('"description":"I am a dummy sensor"')
+      expect(json['data']['uri']).to eq(resource.uri)
+      expect(json['data']['uuid']).to eq(resource.uuid)
+      expect(json['data']['sensor']).to eq(resource.sensor)
+      expect(json['data']['actuator']).to eq(resource.actuator)
+      expect(json['data']['lat']).to eq(resource.lat)
+      expect(json['data']['lon']).to eq(resource.lon)
+      expect(json['data']['status']).to eq(resource.status)
+      expect(json['data']['collect_interval']).to eq(resource.collect_interval)
+      expect(json['data']['description']).to eq(resource.description)
     end
 
   end
@@ -103,10 +111,10 @@ RSpec.describe BasicResourcesController, :type => :controller do
                                            status: "stopped",
                                            collect_interval: 5,
                                            description: "I am a dummy sensor",
-                                           uri: "qwedsa.com") }
+                                           uri: "qwedsa.com")}
 
     before :each do
-      put :update, params: {id: resource.id, data: {uri: "changed.com", lat: -40, lon: -40, collect_interval: 1}}, format: :json
+      put :update, params: {uuid: resource.uuid, data: {uri: "changed.com", lat: -40, lon: -40, collect_interval: 1}}, format: :json
     end
 
     it { expect(response.status).to eq(204) }

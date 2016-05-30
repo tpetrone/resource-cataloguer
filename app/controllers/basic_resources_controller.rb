@@ -18,14 +18,14 @@ class BasicResourcesController < ApplicationController
     render json: BasicResource.all_actuators
   end
 
-  # GET /resources/:id
+  # GET /resources/:uuid
   def show
-    render json: BasicResource.find(params[:id])
+    render json: {data: BasicResource.find_by_uuid(params[:uuid])}
   end
 
-  # PUT /resources/:id
+  # PUT /resources/:uuid
   def update
-    resource = BasicResource.find(params[:id])
+    resource = BasicResource.find_by_uuid(params[:uuid])
     resource.update(component_params)
   end
 
