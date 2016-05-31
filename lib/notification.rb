@@ -7,7 +7,7 @@ module SmartCities
       Thread.new do
         base_collector_url = SERVICES_CONFIG['services']['collector']
         base_actuator_url = SERVICES_CONFIG['services']['actuator']
-        resource_path = "/resource/#{resource.uuid}"
+        resource_path = "/resources/#{resource.uuid}"
 
         if resource.sensor?
           begin
@@ -31,7 +31,6 @@ module SmartCities
     def json_structure(resource)
       {
         data: {
-          uuid: resource.uuid,
           collect_interval: resource.collect_interval,
           uri: resource.uri,
           status: resource.status,
