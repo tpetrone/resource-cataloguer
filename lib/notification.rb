@@ -11,17 +11,17 @@ module SmartCities
 
         if resource.sensor?
           begin
-            RestClient.put base_collector_url + resource_path, json_structure(resource).to_json, :content_type => :json, :accept => :json
-          rescue => e
-            puts'='*5, e.response, '='*5
+            RestClient.put base_collector_url + resource_path, json_structure(resource).to_json
+          rescue Exception => e
+            puts "="*80, "Could not update Resource #{resource.id} - ERROR #{e}", "="*80
           end
         end
 
         if resource.actuator?
           begin
-            RestClient.put base_actuator_url + resource_path, json_structure(resource).to_json, :content_type => :json, :accept => :json
-          rescue => e
-            puts'='*5, e.response, '='*5
+            RestClient.put base_actuator_url + resource_path, json_structure(resource).to_json
+          rescue Exception => e
+            puts "="*80, "Could not update Resource #{resource.id} - ERROR #{e}", "="*80
           end
         end
 

@@ -1,6 +1,7 @@
 require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe BasicResourcesController, :type => :controller do
+describe BasicResourcesController do
   let(:json) {JSON.parse(response.body)}
   describe '#create' do
     before :each do
@@ -114,6 +115,7 @@ RSpec.describe BasicResourcesController, :type => :controller do
                                            uri: "qwedsa.com")}
 
     before :each do
+      allow(controller).to receive(:notify_resource_update).and_return(true)
       put :update, params: {uuid: resource.uuid, data: {uri: "changed.com", lat: -40, lon: -40, collect_interval: 1}}, format: :json
     end
 
