@@ -11,17 +11,17 @@ module SmartCities
 
         if resource.sensor?
           begin
-            RestClient.put base_collector_url + resource_path, json_structure(resource).to_json
+            RestClient.put base_collector_url + resource_path, json_structure(resource).to_json, content_type: 'application/json'
           rescue Exception => e
-            puts "="*80, "Could not update Resource #{resource.id} - ERROR #{e}", "="*80
+            puts "="*80, "Could not notify Collector service on resource #{resource.id} update - ERROR #{e}", "="*80
           end
         end
 
         if resource.actuator?
           begin
-            RestClient.put base_actuator_url + resource_path, json_structure(resource).to_json
+            RestClient.put base_actuator_url + resource_path, json_structure(resource).to_json, content_type: 'application/json'
           rescue Exception => e
-            puts "="*80, "Could not update Resource #{resource.id} - ERROR #{e}", "="*80
+            puts "="*80, "Could not notify Actuator service on resource #{resource.id} update - ERROR #{e}", "="*80
           end
         end
 
