@@ -1,12 +1,13 @@
 class BasicResource < ApplicationRecord
   before_create :create_uuid
+  has_and_belongs_to_many :capabilities
 
   def self.all_sensors
-    BasicResource.where(sensor: true)
+    BasicResource.where(capabilities: Capabilities.all_sensors)
   end
 
   def self.all_actuators
-    BasicResource.where(actuator: true)
+    BasicResource.where(capabilities: Capabilities.all_actuators)
   end
 
   private
