@@ -2,6 +2,7 @@ require 'rails_helper'
 require 'spec_helper'
 
 describe BasicResourcesController do
+  let(:temperature_sensor) { Capability.create(name: "temperature", sensor: true) }
   let(:json) {JSON.parse(response.body)}
   describe '#create' do
     before :each do
@@ -74,14 +75,13 @@ describe BasicResourcesController do
 
   describe '#show' do
 
-    let!(:resource) { BasicResource.create(sensor: true,
-                                           actuator: true,
-                                           uri: "qwedsa.com",
+    let!(:resource) { BasicResource.create(uri: "qwedsa.com",
                                            lat: 20,
                                            lon: 20,
                                            status: "stopped",
                                            collect_interval: 5,
-                                           description: "I am a dummy sensor")}
+                                           description: "I am a dummy sensor",
+                                           capabilities: [temperature_sensor])}
 
     before :each do
       get :show, params: {uuid: resource.uuid}, format: :json
@@ -92,27 +92,25 @@ describe BasicResourcesController do
     it 'is expected to return the resource in JSON' do
       expect(json['data']['uri']).to eq(resource.uri)
       expect(json['data']['uuid']).to eq(resource.uuid)
-      expect(json['data']['sensor']).to eq(resource.sensor)
-      expect(json['data']['actuator']).to eq(resource.actuator)
       expect(json['data']['lat']).to eq(resource.lat)
       expect(json['data']['lon']).to eq(resource.lon)
       expect(json['data']['status']).to eq(resource.status)
       expect(json['data']['collect_interval']).to eq(resource.collect_interval)
       expect(json['data']['description']).to eq(resource.description)
+      expect(json['data']['capabilities']).to eq(['temperature_sensor'])
     end
 
   end
 
   describe '#update' do
 
-    let!(:resource) { BasicResource.create(sensor: true,
-                                           actuator: true,
-                                           lat: 20,
+    let!(:resource) { BasicResource.create(lat: 20,
                                            lon: 20,
                                            status: "stopped",
                                            collect_interval: 5,
                                            description: "I am a dummy sensor",
-                                           uri: "qwedsa.com")}
+                                           uri: "qwedsa.com",
+                                           capabilities: [temperature_sensor])}
 
     before :each do
       allow(controller).to receive(:notify_resource_update).and_return(true)
@@ -123,8 +121,6 @@ describe BasicResourcesController do
     it 'is expected to update resource data' do
       updated_resource = BasicResource.find(resource.id)
       expect(updated_resource.uri).to eq('changed.com')
-      expect(updated_resource.sensor).to eq(true)
-      expect(updated_resource.actuator).to eq(true)
       expect(updated_resource.lat).to eq(-40)
       expect(updated_resource.lon).to eq(-40)
       expect(updated_resource.status).to eq("stopped")

@@ -1,12 +1,22 @@
 class BasicResource < ApplicationRecord
   before_create :create_uuid
+  has_and_belongs_to_many :capabilities
 
   def self.all_sensors
-    BasicResource.where(sensor: true)
+    joins(:capabilities).where("capabilities.sensor" => true)
   end
 
   def self.all_actuators
-    BasicResource.where(actuator: true)
+    joins(:capabilities).where("capabilities.sensor" => false)
+  end
+
+  def to_json
+    hash = attributes.to_options
+    hash[:capabilities] = []
+    capabilities.each do |cap|
+      hash[:capabilities] << cap.name + "_" + cap.kind
+    end
+    hash
   end
 
   private

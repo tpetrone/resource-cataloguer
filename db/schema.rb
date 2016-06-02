@@ -11,20 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517121624) do
+ActiveRecord::Schema.define(version: 20160602140110) do
 
   create_table "basic_resources", force: :cascade do |t|
     t.string   "uri"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.boolean  "sensor",           default: false
-    t.boolean  "actuator",         default: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.float    "lat"
     t.float    "lon"
     t.string   "status"
     t.integer  "collect_interval"
     t.text     "description"
     t.string   "uuid"
+  end
+
+  create_table "basic_resources_capabilities", id: false, force: :cascade do |t|
+    t.integer "basic_resource_id"
+    t.integer "capability_id"
+    t.index ["basic_resource_id"], name: "index_basic_resources_capabilities_on_basic_resource_id"
+    t.index ["capability_id"], name: "index_basic_resources_capabilities_on_capability_id"
+  end
+
+  create_table "capabilities", force: :cascade do |t|
+    t.string  "name"
+    t.boolean "sensor"
   end
 
 end
