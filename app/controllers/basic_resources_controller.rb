@@ -7,8 +7,10 @@ class BasicResourcesController < ApplicationController
   def create
     resource = BasicResource.new(component_params)
     resource.save!
-    component_params[:capabilities].each do |cap|
-      resource.capabilities << Capability.where(name: cap).take
+    if component_params[:capabilities].present?
+      component_params[:capabilities].each do |cap|
+        resource.capabilities << Capability.where(name: cap).take
+      end
     end
     render json: {data: resource}, status: 201, location: basic_resource_url(resource)
   end
@@ -32,8 +34,10 @@ class BasicResourcesController < ApplicationController
   def update
     resource = BasicResource.find_by_uuid(params[:uuid])
     resource.update(component_params)
-    component_params[:capabilities].each do |cap|
-      resource.capabilities << Capability.where(name: cap).take
+    if component_params[:capabilities].present?
+      component_params[:capabilities].each do |cap|
+        resource.capabilities << Capability.where(name: cap).take
+      end
     end
     notify_resource_update(resource)
   end
