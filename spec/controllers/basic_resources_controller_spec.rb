@@ -90,7 +90,6 @@ describe BasicResourcesController do
     it { expect(response.status).to eq(200) }
 
     it 'is expected to return the resource in JSON' do
-      #expect(json['data']['capabilities']).to include('temperature')
       expect(json['data']['uri']).to eq(resource.uri)
       expect(json['data']['uuid']).to eq(resource.uuid)
       expect(json['data']['lat']).to eq(resource.lat)
@@ -98,6 +97,7 @@ describe BasicResourcesController do
       expect(json['data']['status']).to eq(resource.status)
       expect(json['data']['collect_interval']).to eq(resource.collect_interval)
       expect(json['data']['description']).to eq(resource.description)
+      expect(json['data']['capabilities']).to eq(['temperature_sensor'])
     end
 
   end

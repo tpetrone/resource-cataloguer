@@ -10,6 +10,15 @@ class BasicResource < ApplicationRecord
     joins(:capabilities).where("capabilities.sensor" => false)
   end
 
+  def to_json
+    hash = attributes.to_options
+    hash[:capabilities] = []
+    capabilities.each do |cap|
+      hash[:capabilities] << cap.name + "_" + cap.kind
+    end
+    hash
+  end
+
   private
 
     def create_uuid

@@ -27,7 +27,7 @@ class BasicResourcesController < ApplicationController
 
   # GET /resources/:uuid
   def show
-    render json: {data: BasicResource.find_by_uuid(params[:uuid])}
+    render json: { data: BasicResource.find_by_uuid(params[:uuid]).to_json }
   end
 
   # PUT /resources/:uuid
