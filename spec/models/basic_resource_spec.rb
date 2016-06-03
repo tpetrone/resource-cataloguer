@@ -4,9 +4,17 @@ RSpec.describe BasicResource, :type => :model do
 
   let!(:temperature_sensor) { Capability.create(name: "temperature", sensor: true) }
   let!(:semaphore_actuator) { Capability.create(name: "semaphore", sensor: false) }
+  let(:resource_params) {{
+    description: "just a resource",
+    lat: 10,
+    lon: 10,
+    status: "stopped",
+    collect_interval: 5,
+    uri: "example.com"
+  }}
 
   describe '#create' do
-    let(:resource) { described_class.create! }
+    let(:resource) { described_class.create(resource_params) }
     it "automatically creates an uuid" do
       expect(resource.uuid).to_not be_nil
     end
@@ -20,15 +28,15 @@ RSpec.describe BasicResource, :type => :model do
     end
 
     context 'there is one sensor and one actuator' do
-      let!(:sensor) { described_class.create(capabilities: [temperature_sensor]) }
-      let!(:actuator) { described_class.create(capabilities: [semaphore_actuator]) }
+      let!(:sensor) { described_class.create(resource_params.merge(capabilities: [temperature_sensor], uri: "example1.com")) }
+      let!(:actuator) { described_class.create(resource_params.merge(capabilities: [semaphore_actuator], uri: "example2.com")) }
       subject { described_class.all_sensors }
       it { is_expected.to include(sensor) }
       it { is_expected.not_to include(actuator) }
     end
 
     context 'there is a hybrid sensor-actuator' do
-      let!(:hybrid) { described_class.create(capabilities: [temperature_sensor, semaphore_actuator]) }
+      let!(:hybrid) { described_class.create(resource_params.merge(capabilities: [temperature_sensor, semaphore_actuator])) }
       subject { described_class.all_sensors }
       it { is_expected.to include(hybrid) }
     end
@@ -43,15 +51,15 @@ RSpec.describe BasicResource, :type => :model do
     end
 
     context 'there is one sensor and one actuator' do
-      let!(:sensor) { described_class.create(capabilities: [temperature_sensor]) }
-      let!(:actuator) { described_class.create(capabilities: [semaphore_actuator]) }
+      let!(:sensor) { described_class.create(resource_params.merge(capabilities: [temperature_sensor], uri: "example1.com")) }
+      let!(:actuator) { described_class.create(resource_params.merge(capabilities: [semaphore_actuator], uri: "example2.com")) }
       subject { described_class.all_actuators }
       it { is_expected.to include(actuator) }
       it { is_expected.not_to include(sensor) }
     end
 
     context 'there is a hybrid sensor-actuator' do
-      let!(:hybrid) { described_class.create(capabilities: [temperature_sensor, semaphore_actuator]) }
+      let!(:hybrid) { described_class.create(resource_params.merge(capabilities: [temperature_sensor, semaphore_actuator])) }
       subject { described_class.all_actuators }
       it { is_expected.to include(hybrid) }
     end
