@@ -66,4 +66,19 @@ RSpec.describe BasicResource, :type => :model do
 
   end
 
+  describe '#sensor?' do
+    let!(:actuator) { described_class.create(resource_params.merge(capabilities: [semaphore_actuator], uri: "example2.com")) }
+    let!(:sensor) { described_class.create(resource_params.merge(capabilities: [temperature_sensor], uri: "example1.com")) }
+    context 'resource is a sensor' do
+      subject { sensor.sensor? }
+      it { is_expected.to eq(true) }
+    end
+
+    context 'resource is an actuator' do
+      subject { actuator.actuator? }
+      it { is_expected.to eq(true) }
+    end
+
+  end
+
 end

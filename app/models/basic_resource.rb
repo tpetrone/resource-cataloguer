@@ -16,6 +16,14 @@ class BasicResource < ApplicationRecord
     joins(:capabilities).where("capabilities.sensor" => false)
   end
 
+  def sensor?
+    self.capabilities.where(sensor: true).count > 0
+  end
+
+  def actuator?
+    self.capabilities.where(sensor: false).count > 0
+  end
+
   def to_json
     hash = attributes.to_options
     hash[:capabilities] = []
