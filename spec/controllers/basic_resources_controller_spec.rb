@@ -7,6 +7,7 @@ describe BasicResourcesController do
   describe '#create' do
     context 'successful' do
       before :each do
+        allow(controller).to receive(:notify_resource_creation).and_return(true)
         BasicResource.destroy_all
         post 'create',
           params: {

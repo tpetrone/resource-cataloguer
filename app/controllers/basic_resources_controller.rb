@@ -17,6 +17,7 @@ class BasicResourcesController < ApplicationController
           resource.capabilities << query.take
         end
       end
+      notify_resource_creation(resource)
       render json: {data: resource.to_json}, status: 201, location: basic_resource_url(resource)
     rescue
       render json: {
