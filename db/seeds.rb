@@ -6,6 +6,14 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-BasicResource.create(uri: "sbrubles.com", sensor: true, actuator: false)
-BasicResource.create(uri: "notsbrubles.com", sensor: false, actuator: true)
-BasicResource.create(uri: "maybesbrubles.com", sensor: true, actuator: true)
+BasicResource.create(uri: "sbrubles.com")
+BasicResource.create(uri: "notsbrubles.com")
+BasicResource.create(uri: "maybesbrubles.com")
+
+Capability.create(name: "temperature", sensor: true)
+Capability.create(name: "air-quality", sensor: true)
+Capability.create(name: "air-humidity", sensor: true)
+Capability.create(name: "parking-occupancy", sensor: true)
+Capability.create(name: "video", sensor: true)
+Capability.create(name: "queue-length", sensor: true)
+Capability.create(name: "semaphore")
