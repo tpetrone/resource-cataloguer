@@ -7,7 +7,7 @@ describe BasicResourcesController do
   describe '#create' do
     context 'successful' do
       before :each do
-        allow(controller).to receive(:notify_resource_creation).and_return(true)
+        allow(controller).to receive(:notify_resource).and_return(true)
         BasicResource.destroy_all
         post 'create',
           params: {
@@ -171,7 +171,7 @@ describe BasicResourcesController do
     context 'successful' do
 
       before :each do
-        allow(controller).to receive(:notify_resource_update).and_return(true)
+        allow(controller).to receive(:notify_resource).and_return(true)
         put :update, params: {uuid: resource.uuid, data: {uri: "changed.com", lat: -40, lon: -40, collect_interval: 1}}, format: :json
       end
 
