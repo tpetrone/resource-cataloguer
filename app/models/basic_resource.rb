@@ -1,6 +1,12 @@
 class BasicResource < ApplicationRecord
   before_create :create_uuid
   has_and_belongs_to_many :capabilities
+  validates :description, presence: true
+  validates :lat, presence: true, numericality: true
+  validates :lon, presence: true, numericality: true
+  validates :status, presence: true
+  validates :collect_interval, presence: true, numericality: true
+  validates :uri, presence: true, uniqueness: true
 
   def self.all_sensors
     joins(:capabilities).where("capabilities.sensor" => true)
