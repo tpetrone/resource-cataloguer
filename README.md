@@ -22,8 +22,8 @@ Provides
 --------
 
 * POST /resources
-* PUT /resources/:id
-* GET /resources/:id
+* PUT /resources/:uuid
+* GET /resources/:uuid
 * GET /resources/sensors
 * GET /resources/actuators
 * GET /resources/search - Not implemented yet
@@ -32,8 +32,8 @@ Needs
 -----
 
 * resources GET /status
-* consumers POST /resources/:id
-* consumers PUT /resources/:id
+* consumers POST /resources/
+* consumers PUT /resources/:uuid
 
 
 Useful links
