@@ -6,6 +6,14 @@ class Capability < ApplicationRecord
     sensor ? "sensor" : "actuator"
   end
 
+  def sensor?
+    self.sensor
+  end
+
+  def actuator?
+    !self.sensor
+  end
+
   def self.all_sensors
     where(sensor: true)
   end
