@@ -14,7 +14,7 @@ Environment Setup
   * ```$ bundle exec rake db:create```
   * ```$ bundle exec rake db:migrate```
 * Run the tests:
-  * ```$ rspec```
+  * ```$ bundle exec rspec```
 
 You should see all tests passing =)
 
