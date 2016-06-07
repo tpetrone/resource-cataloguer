@@ -23,11 +23,10 @@ Provides
 
 * POST /resources
 * PUT /resources/:id
-* GET /resources/:id/metadata
-* GET /resources/metadata
+* GET /resources/:id
 * GET /resources/sensors
 * GET /resources/actuators
-* GET /resources/search
+* GET /resources/search - Not implemented yet
 
 Needs
 -----
