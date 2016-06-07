@@ -5,14 +5,16 @@ class BasicResourcesController < ApplicationController
 
   # POST /resources
   def create
-    resource = BasicResource.new(component_params)
-    resource.save!
-    if component_params[:capabilities].present?
-      component_params[:capabilities].each do |cap|
+    params_hash = component_params
+    capabilities = params_hash.delete "capabilities"
+    resource = BasicResource.new(params_hash)
+    if capabilities.present?
+      capabilities.each do |cap|
         resource.capabilities << Capability.where(name: cap).take
       end
     end
-    render json: {data: resource}, status: 201, location: basic_resource_url(resource)
+    resource.save!
+    render json: {data: resource.to_json}, status: 201, location: basic_resource_url(resource)
   end
 
   # GET /resources/sensors
@@ -45,6 +47,6 @@ class BasicResourcesController < ApplicationController
   private
 
     def component_params
-      params.require(:data).permit(:description, :lat, :lon, :status, :collect_interval, :capabilities, :uri)
+      params.require(:data).permit(:description, :lat, :lon, :status, :collect_interval, :uri, capabilities: [])
     end
 end
