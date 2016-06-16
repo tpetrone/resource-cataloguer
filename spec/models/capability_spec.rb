@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Capability, :type => :model do
 
-  let!(:temperature_sensor) { Capability.create(name: "collect_temperature", sensor: true) }
-  let!(:semaphore_actuator) { Capability.create(name: "manipulate_semaphore", sensor: false) }
+  let!(:temperature_sensor) { Capability.create(name: "collect_temperature", function: Capability.sensor_index) }
+  let!(:semaphore_actuator) { Capability.create(name: "manipulate_semaphore", function: Capability.actuator_index) }
 
   context 'sensor capability only' do
     describe '#create' do
@@ -15,11 +15,11 @@ RSpec.describe Capability, :type => :model do
 
     describe '#kind' do
       it 'returns the correct kind' do
-        expect(temperature_sensor.kind).to eq('sensor')
+        expect(temperature_sensor).to be_sensor
       end
     end
   end
-    
+
   context 'actuator capability only' do
     describe '#create' do
       it "automatically define actuator flag based on name" do
@@ -27,16 +27,16 @@ RSpec.describe Capability, :type => :model do
         expect(semaphore_actuator).to be_actuator
       end
     end
-    
+
     describe '#kind' do
       it 'returns the correct kind' do
-        expect(semaphore_actuator.kind).to eq('actuator')
+        expect(semaphore_actuator).to be_actuator
       end
     end
   end
 
   context 'all kinds of capabilities' do
-    let(:resource1) { 
+    let(:resource1) {
       BasicResource.create(
         description: "just a resource",
         lat: 10,
@@ -47,7 +47,7 @@ RSpec.describe Capability, :type => :model do
       )
     }
 
-    let(:resource2) { 
+    let(:resource2) {
       BasicResource.create(
         description: "just another resource",
         lat: -10,
@@ -70,7 +70,7 @@ RSpec.describe Capability, :type => :model do
         expect(semaphore_actuator.basic_resources).to include(resource2)
         expect(temperature_sensor.basic_resources).to include(resource1)
       end
-      
+
       it 'does not include incorrect resources' do
         expect(temperature_sensor.basic_resources).to_not include(resource2)
       end
@@ -82,7 +82,7 @@ RSpec.describe Capability, :type => :model do
     it 'includes temperature sensor' do
       expect(described_class.all_sensors).to include(temperature_sensor)
     end
-    
+
     it 'does not include semaphore actuator' do
       expect(described_class.all_sensors).to_not include(semaphore_actuator)
     end
@@ -92,7 +92,7 @@ RSpec.describe Capability, :type => :model do
     it 'does not include temperature sensor' do
       expect(described_class.all_actuators).to_not include(temperature_sensor)
     end
-    
+
     it 'include semaphore actuator' do
       expect(described_class.all_actuators).to include(semaphore_actuator)
     end

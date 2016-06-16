@@ -1,25 +1,62 @@
 class Capability < ApplicationRecord
-
+  validates :function, inclusion: { in: 0..2 }
   has_and_belongs_to_many :basic_resources
 
-  def kind
-    sensor ? "sensor" : "actuator"
+  @@TYPES = [:sensor, :actuator, :information]
+  @@TYPE_INDEX = {
+    sensor: 0, actuator: 1, information: 2
+  }
+
+  def function_symbol
+    @@TYPES[self[:function]]
+  end
+
+  def function? function_symbol
+    @@TYPES[self[:function]] == function_symbol
   end
 
   def sensor?
-    self.sensor
+    function? :sensor
   end
 
   def actuator?
-    !self.sensor
+    function? :actuator
+  end
+
+  def information?
+    function? :information
+  end
+
+  def self.function_index function_symbol
+    @@TYPE_INDEX[function_symbol]
+  end
+
+  def self.sensor_index
+    function_index :sensor
+  end
+
+  def self.actuator_index
+    function_index :actuator
+  end
+
+  def self.information_index
+    function_index :information
   end
 
   def self.all_sensors
-    where(sensor: true)
+    all_of_function :sensor
   end
 
   def self.all_actuators
-    where(sensor: false)
+    all_of_function :actuator
+  end
+
+  def self.all_informations
+    all_of_function :information
+  end
+
+  def self.all_of_function function_symbol
+    where(function: function_index(function_symbol))
   end
 
 end

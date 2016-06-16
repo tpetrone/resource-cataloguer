@@ -9,19 +9,23 @@ class BasicResource < ApplicationRecord
   validates :uri, presence: true, uniqueness: true
 
   def self.all_sensors
-    joins(:capabilities).where("capabilities.sensor" => true)
+    joins(:capabilities).where("capabilities.function" => Capability.sensor_index)
   end
 
   def self.all_actuators
-    joins(:capabilities).where("capabilities.sensor" => false)
+    joins(:capabilities).where("capabilities.function" => Capability.actuator_index)
+  end
+
+  def self.all_informations
+    joins(:capabilities).where("capabilities.function" => Capability.information_index)
   end
 
   def sensor?
-    self.capabilities.where(sensor: true).count > 0
+    self.capabilities.where(function: Capability.sensor_index).count > 0
   end
 
   def actuator?
-    self.capabilities.where(sensor: false).count > 0
+    self.capabilities.where(function: Capability.actuator_index).count > 0
   end
 
   def to_json
