@@ -172,7 +172,7 @@ describe BasicResourcesController do
 
       before :each do
         allow(controller).to receive(:notify_resource).and_return(true)
-        put :update, params: {uuid: resource.uuid, data: {uri: "changed.com", lat: -40, lon: -40, collect_interval: 1}}, format: :json
+        put :update, params: {uuid: resource.uuid, data: {uri: "changed.com", lat: -40, lon: -40, collect_interval: 1, capabilities:["temperature"]}}, format: :json
       end
 
       it { expect(response.status).to eq(204) }
@@ -184,6 +184,7 @@ describe BasicResourcesController do
         expect(updated_resource.status).to eq("stopped")
         expect(updated_resource.collect_interval).to eq(1)
         expect(updated_resource.description).to eq("I am a dummy sensor")
+        expect(updated_resource.capabilities).to eq([temperature_sensor])
       end
     end
 

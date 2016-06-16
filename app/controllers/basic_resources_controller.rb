@@ -53,6 +53,7 @@ class BasicResourcesController < ApplicationController
     begin
       resource.update!(component_params)
       if capability_params[:capabilities].present?
+        resource.capabilities.destroy_all 
         capability_params[:capabilities].each do |cap|
           query = Capability.where(name: cap)
           raise if query.empty?
