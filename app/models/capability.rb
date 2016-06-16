@@ -59,4 +59,20 @@ class Capability < ApplicationRecord
     where(function: function_index(function_symbol))
   end
 
+  def self.create_with_function function_symbol, params
+    Capability.create(params.merge(function: function_index(function_symbol)))
+  end
+
+  def self.create_sensor params
+    create_with_function(:sensor, params)
+  end
+
+  def self.create_actuator params
+    create_with_function(:actuator, params)
+  end
+
+  def self.create_information params
+    create_with_function(:information, params)
+  end
+
 end
