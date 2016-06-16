@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe BasicResource, :type => :model do
 
-  let!(:temperature_sensor) { Capability.create(name: "temperature", sensor: true) }
-  let!(:semaphore_actuator) { Capability.create(name: "semaphore", sensor: false) }
+  let!(:temperature_sensor) { Capability.create(name: "temperature", function: Capability.sensor_index) }
+  let!(:semaphore_actuator) { Capability.create(name: "semaphore", function: Capability.actuator_index) }
+  let!(:parking_information) { Capability.create(name: "parking slot", function: Capability.information_index) }
   let(:resource_params) {{
     description: "just a resource",
     lat: 10,
@@ -50,16 +51,16 @@ RSpec.describe BasicResource, :type => :model do
       it { is_expected.to be_empty }
     end
 
-    context 'there is one sensor and one actuator' do
-      let!(:sensor) { described_class.create(resource_params.merge(capabilities: [temperature_sensor], uri: "example1.com")) }
+    context 'there is one actuator and one information' do
       let!(:actuator) { described_class.create(resource_params.merge(capabilities: [semaphore_actuator], uri: "example2.com")) }
+      let!(:information) { described_class.create(resource_params.merge(capabilities: [parking_information], uri: "example3.com")) }
       subject { described_class.all_actuators }
       it { is_expected.to include(actuator) }
-      it { is_expected.not_to include(sensor) }
+      it { is_expected.not_to include(information) }
     end
 
     context 'there is a hybrid sensor-actuator' do
-      let!(:hybrid) { described_class.create(resource_params.merge(capabilities: [temperature_sensor, semaphore_actuator])) }
+      let!(:hybrid) { described_class.create(resource_params.merge(capabilities: [parking_information, semaphore_actuator])) }
       subject { described_class.all_actuators }
       it { is_expected.to include(hybrid) }
     end
