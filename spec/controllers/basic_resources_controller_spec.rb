@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'spec_helper'
 
 describe BasicResourcesController do
-  let!(:temperature_sensor) { Capability.create(name: "temperature", sensor: true) }
+  let!(:temperature_sensor) { Capability.create(name: "temperature", function: Capability.sensor_index) }
   let(:json) {JSON.parse(response.body)}
   describe '#create' do
     context 'successful' do

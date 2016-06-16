@@ -32,7 +32,7 @@ class BasicResource < ApplicationRecord
     hash = attributes.to_options
     hash[:capabilities] = []
     capabilities.each do |cap|
-      hash[:capabilities] << cap.name + "_" + cap.kind
+      hash[:capabilities] << cap.name + "_" + cap.function_symbol.to_s
     end
     hash
   end
