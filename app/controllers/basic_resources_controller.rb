@@ -77,4 +77,5 @@ class BasicResourcesController < ApplicationController
     def capability_params
       params.require(:data).permit(capabilities: [])
     end
+
 end
