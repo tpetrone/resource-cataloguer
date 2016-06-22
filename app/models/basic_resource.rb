@@ -1,4 +1,9 @@
+require 'geocoder'
+require 'location'
+
 class BasicResource < ApplicationRecord
+  include SmartCities::Location
+
   before_create :create_uuid
   has_and_belongs_to_many :capabilities
   validates :lat, presence: true, numericality: true
@@ -35,6 +40,20 @@ class BasicResource < ApplicationRecord
     end
     hash
   end
+
+  reverse_geocoded_by :lat, :lon do |obj, results|
+    if geo = results.first
+      unless geo.postal_code.nil?
+        obj.postal_code = obj.complete_postal_code(results)
+      end
+      obj.neighborhood = obj.get_neighborhood(geo.address_components)
+      obj.city         = geo.city
+      obj.state        = geo.state
+      obj.country      = geo.country
+    end
+  end
+
+  after_validation :reverse_geocode
 
   private
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616134009) do
+ActiveRecord::Schema.define(version: 20160620144534) do
 
   create_table "basic_resources", force: :cascade do |t|
     t.string   "uri"
@@ -23,6 +23,11 @@ ActiveRecord::Schema.define(version: 20160616134009) do
     t.integer  "collect_interval"
     t.text     "description"
     t.string   "uuid"
+    t.string   "city"
+    t.string   "neighborhood"
+    t.string   "state"
+    t.string   "postal_code"
+    t.string   "country"
   end
 
   create_table "basic_resources_capabilities", id: false, force: :cascade do |t|

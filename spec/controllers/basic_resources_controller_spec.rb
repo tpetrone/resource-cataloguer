@@ -13,8 +13,8 @@ describe BasicResourcesController do
           params: {
             data: {
               uri: "example.com",
-              lat: 20,
-              lon: 20,
+              lat: -23.559616,
+              lon: -46.731386,
               status: "stopped",
               collect_interval: 5,
               description: "I am a dummy sensor",
@@ -31,12 +31,20 @@ describe BasicResourcesController do
       it 'is expected to return the resource in JSON' do
         expect(json["data"]["id"].class).to eq(Fixnum)
         expect(json["data"]["uri"]).to eq("example.com")
-        expect(json["data"]["lat"]).to eq(20)
-        expect(json["data"]["lon"]).to eq(20)
+        expect(json["data"]["lat"]).to eq(-23.559616)
+        expect(json["data"]["lon"]).to eq(-46.731386)
         expect(json["data"]["status"]).to eq('stopped')
         expect(json["data"]["collect_interval"]).to eq(5)
         expect(json["data"]["description"]).to eq("I am a dummy sensor")
         expect(json["data"]["capabilities"]).to eq(["temperature_sensor"])
+      end
+
+      it 'is expected to automatically fill in location parameters' do
+        resource = BasicResource.last
+        expect(resource.country).to eq("Brazil")
+        expect(resource.state).to eq("São Paulo")
+        expect(resource.neighborhood).to eq("Butantã")
+        expect(resource.postal_code).to eq("05508-090")
       end
 
       it 'is expected to create a resource' do
@@ -51,6 +59,57 @@ describe BasicResourcesController do
       context 'capabilities' do
         subject { BasicResource.last.capabilities }
         it { is_expected.to include(temperature_sensor)}
+      end
+    end
+
+    context 'successful in a remote location' do
+      before :each do
+        allow(controller).to receive(:notify_resource).and_return(true)
+        BasicResource.destroy_all
+        post 'create',
+          params: {
+            data: {
+              uri: "example.com",
+              lat: -42,
+              lon: -15,
+              status: "stopped",
+              collect_interval: 5,
+              description: "I am a dummy sensor",
+              capabilities: ["temperature"]
+            }
+          },
+        format: :json
+      end
+
+      it { expect(response.status).to eq(201) }
+      it 'is expected to return the location of the new resource in the header' do
+        expect(response.location).to match(/resources\/\d+/)
+      end
+      it 'is expected to return the resource in JSON' do
+        expect(json["data"]["id"].class).to eq(Fixnum)
+        expect(json["data"]["uri"]).to eq("example.com")
+        expect(json["data"]["lat"]).to eq(-42)
+        expect(json["data"]["lon"]).to eq(-15)
+        expect(json["data"]["status"]).to eq('stopped')
+        expect(json["data"]["collect_interval"]).to eq(5)
+        expect(json["data"]["description"]).to eq("I am a dummy sensor")
+      end                    
+                                                                                                        
+      it 'is expected to have no values for location' do
+        resource = BasicResource.last
+        expect(resource.country).to eq(nil)
+        expect(resource.state).to eq(nil)
+        expect(resource.neighborhood).to eq(nil)
+        expect(resource.postal_code).to eq(nil)
+      end
+
+      it 'is expected to create a resource' do
+        expect(BasicResource.count).to be(1)
+      end
+
+      it 'generates a uuid to the new resource' do
+        resource = BasicResource.last
+        expect(resource.uuid).to_not be_nil
       end
     end
 
@@ -171,21 +230,30 @@ describe BasicResourcesController do
 
       before :each do
         allow(controller).to receive(:notify_resource).and_return(true)
-        put :update, params: {uuid: resource.uuid, data: {uri: "changed.com", lat: -40, lon: -40, collect_interval: 1, capabilities:["temperature"]}}, format: :json
+        put :update, params: {uuid: resource.uuid, data: {uri: "changed.com", lat: -23, lon: -46, collect_interval: 1, capabilities:["temperature"]}}, format: :json
       end
 
       it { expect(response.status).to eq(204) }
       it 'is expected to update resource data' do
         updated_resource = BasicResource.find(resource.id)
         expect(updated_resource.uri).to eq('changed.com')
-        expect(updated_resource.lat).to eq(-40)
-        expect(updated_resource.lon).to eq(-40)
+        expect(updated_resource.lat).to eq(-23)
+        expect(updated_resource.lon).to eq(-46)
         expect(updated_resource.status).to eq("stopped")
         expect(updated_resource.collect_interval).to eq(1)
         expect(updated_resource.description).to eq("I am a dummy sensor")
         expect(updated_resource.capabilities).to eq([temperature_sensor])
       end
-    end
+
+      it 'is expected to automatically update location parameters' do
+        updated_resource = BasicResource.find(resource.id)
+        expect(updated_resource.postal_code).to eq(nil)
+        expect(updated_resource.neighborhood).to eq(nil)
+        expect(updated_resource.city).to eq("São José dos Campos")
+        expect(updated_resource.state).to eq("São Paulo")
+        expect(updated_resource.country).to eq("Brazil")
+      end
+    end    
 
     context 'fails due to bad parameters' do
       before :each do
