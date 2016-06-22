@@ -1,7 +1,6 @@
 class BasicResource < ApplicationRecord
   before_create :create_uuid
   has_and_belongs_to_many :capabilities
-  validates :description, presence: true
   validates :lat, presence: true, numericality: true
   validates :lon, presence: true, numericality: true
   validates :status, presence: true

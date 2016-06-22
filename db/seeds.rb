@@ -10,7 +10,6 @@ BasicResource.create(uri: "sbrubles.com")
 BasicResource.create(uri: "notsbrubles.com")
 BasicResource.create(uri: "maybesbrubles.com")
 
-Capability.create_sensor(name: "temperature")
 Capability.create_sensor(name: "air-quality")
 Capability.create_sensor(name: "air-humidity")
 Capability.create_sensor(name: "parking-occupancy")
@@ -18,3 +17,18 @@ Capability.create_sensor(name: "video")
 Capability.create_sensor(name: "queue-length")
 Capability.create_actuator(name: "semaphore")
 Capability.create_information(name: "parking-type")
+
+# Health Facilities
+Capability.create_sensor(name: "current_users")
+Capability.create_information(name: "info_facility_type")
+Capability.create_information(name: "info_total_capacity")
+
+# ParkingSpot
+Capability.create_sensor(name: "spot_availability")
+
+# SportsMaps
+Capability.create_sensor(name: "humidity")
+Capability.create_sensor(name: "temperature")
+Capability.create_sensor(name: "uv")
+Capability.create_sensor(name: "pollution")
+Capability.create_information(name: "info_green_percentage")

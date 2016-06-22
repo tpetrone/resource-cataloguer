@@ -64,8 +64,7 @@ describe BasicResourcesController do
               lat: 20,
               lon: 20,
               status: "stopped",
-              collect_interval: 5
-              # no description!
+              # no collect_interval
           },
         },
         format: :json
