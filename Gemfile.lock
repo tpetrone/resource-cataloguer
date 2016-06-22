@@ -70,6 +70,7 @@ GEM
     nio4r (1.2.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    pg (0.18.4)
     puma (3.4.0)
     rack (2.0.0.rc1)
       json
@@ -160,6 +161,7 @@ DEPENDENCIES
   byebug
   geocoder
   listen (~> 3.0.5)
+  pg
   puma (~> 3.0)
   rails (>= 5.0.0.rc1, < 5.1)
   rest-client
@@ -171,4 +173,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.12.2
+   1.12.3
