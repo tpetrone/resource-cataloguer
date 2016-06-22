@@ -3,6 +3,23 @@ require 'notification'
 class BasicResourcesController < ApplicationController
   include SmartCities::Notification
 
+  # GET /resources/search
+  # Errors
+  # => 422 unprocessable entity
+  def search
+    @resources = BasicResource.all
+    if !params['capability'].blank?
+      capability = Capability.find_by_name(params['capability'])
+      @resources = @resources.includes(:capabilities).where(capabilities: {id: c.id})
+    end
+
+    if params['lat'] && params['lon']
+      if params['radius']
+        @resources = @resources.
+      end
+    end
+  end
+
   # POST /resources
   # Errors
   # => 422 unprocessable entity

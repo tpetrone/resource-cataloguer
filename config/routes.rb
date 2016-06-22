@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   get 'resources/actuators', to: 'basic_resources#index_actuators'
   get 'resources/:uuid', to: 'basic_resources#show', as: :basic_resource
   put 'resources/:uuid', to: 'basic_resources#update'
-
+  get 'resources/search', to: 'basic_resources#search'
 end
