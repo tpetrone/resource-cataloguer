@@ -312,16 +312,29 @@ describe BasicResourcesController do
     let!(:resources) {
       BasicResource.all
     }
-    before :each do
-      get :search, params: { data: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"} }
+    context "successful" do
+      before :each do
+        get :search, params: { data: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"} }
+      end
+      context 'response' do
+        subject {response.status}
+        it { is_expected.to be 200 }
+      end
+      context 'result' do
+        subject { json["resources"] }
+        it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
+      end
     end
-    context 'response' do
-      subject {response.status}
-      it { is_expected.to be 200 }
-    end
-    context 'result' do
-      subject { json["resources"] }
-      it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
+    context "failure" do
+      before :each do
+        # simulate error
+        expect(BasicResource).to receive(:all).and_raise
+        get :search, params: { data: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"} }
+      end
+      context 'response' do
+        subject {response.status}
+        it { is_expected.to be 422 }
+      end
     end
   end
 end

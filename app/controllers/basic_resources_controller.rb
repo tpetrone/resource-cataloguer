@@ -12,19 +12,21 @@ class BasicResourcesController < ApplicationController
     response = []
     begin
       @resources = BasicResource.all
-      @resources = filter_capabilities @resources, params
-      @resources = filter_position @resources, params
-      @resources = filter_distance @resources, params
+      @resources = filter_capabilities @resources, search_params
+      @resources = filter_position @resources, search_params
+      @resources = filter_distance @resources, search_params
       simple_params.each do |k,v|
         @resources = filter_resources @resources, k, v
       end
       @resources.each do |resource|
         response << {uuid: resource.uuid, lat: resource.lat, lon: resource.lon}
       end
+      render json: {resources: response}, status: 200
     rescue
+      render json: {
+        error: "Error while searching resource"
+      }, status: 422
     end
-
-    render json: {resources: response}, status: 200
   end
 
   # POST /resources
@@ -93,6 +95,10 @@ class BasicResourcesController < ApplicationController
   end
 
   private
+
+    def search_params
+      params.require(:data).permit(:capability, :lat, :lon, :radius)
+    end
 
     def simple_params
       params.require(:data).permit(:status, :city, :neighborhood, :postal_code)
