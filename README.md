@@ -26,7 +26,7 @@ Provides
 * GET /resources/:uuid
 * GET /resources/sensors
 * GET /resources/actuators
-* GET /resources/search - Not implemented yet
+* GET /resources/search
 
 Needs
 -----
