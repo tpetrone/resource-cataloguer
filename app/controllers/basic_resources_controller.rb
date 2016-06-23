@@ -1,7 +1,33 @@
 require 'notification'
+require 'resource_filter'
 
 class BasicResourcesController < ApplicationController
   include SmartCities::Notification
+  include SmartCities::ResourceFilter
+
+  # GET /resources/search
+  # Errors
+  # => 422 unprocessable entity
+  def search
+    response = []
+    begin
+      @resources = BasicResource.all
+      @resources = filter_capabilities @resources, search_params
+      @resources = filter_position @resources, search_params
+      @resources = filter_distance @resources, search_params
+      simple_params.each do |k,v|
+        @resources = filter_resources @resources, k, v
+      end
+      @resources.each do |resource|
+        response << {uuid: resource.uuid, lat: resource.lat, lon: resource.lon}
+      end
+      render json: {resources: response}, status: 200
+    rescue
+      render json: {
+        error: "Error while searching resource"
+      }, status: 422
+    end
+  end
 
   # POST /resources
   # Errors
@@ -53,7 +79,7 @@ class BasicResourcesController < ApplicationController
     begin
       resource.update!(component_params)
       if capability_params[:capabilities].present?
-        resource.capabilities.destroy_all 
+        resource.capabilities.destroy_all
         capability_params[:capabilities].each do |cap|
           query = Capability.where(name: cap)
           raise if query.empty?
@@ -69,6 +95,14 @@ class BasicResourcesController < ApplicationController
   end
 
   private
+
+    def search_params
+      params.require(:data).permit(:capability, :lat, :lon, :radius)
+    end
+
+    def simple_params
+      params.require(:data).permit(:status, :city, :neighborhood, :postal_code)
+    end
 
     def component_params
       params.require(:data).permit(:description, :lat, :lon, :status, :collect_interval, :uri)
