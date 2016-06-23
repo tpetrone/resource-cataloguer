@@ -3,6 +3,8 @@ require 'spec_helper'
 
 describe BasicResourcesController do
   let!(:temperature_sensor) { Capability.create(name: "temperature", function: Capability.sensor_index) }
+  let!(:semaphore_actuator) { Capability.create(name: "semaphore", function: Capability.actuator_index) }
+  let!(:parking_information) { Capability.create(name: "parking slot", function: Capability.information_index) }
   let(:json) {JSON.parse(response.body)}
   describe '#create' do
     context 'successful' do
@@ -93,8 +95,8 @@ describe BasicResourcesController do
         expect(json["data"]["status"]).to eq('stopped')
         expect(json["data"]["collect_interval"]).to eq(5)
         expect(json["data"]["description"]).to eq("I am a dummy sensor")
-      end                    
-                                                                                                        
+      end
+
       it 'is expected to have no values for location' do
         resource = BasicResource.last
         expect(resource.country).to eq(nil)
@@ -253,7 +255,7 @@ describe BasicResourcesController do
         expect(updated_resource.state).to eq("São Paulo")
         expect(updated_resource.country).to eq("Brazil")
       end
-    end    
+    end
 
     context 'fails due to bad parameters' do
       before :each do
@@ -273,5 +275,53 @@ describe BasicResourcesController do
     end
   end
 
-
+  describe '#search' do
+    let!(:resource1) {
+      BasicResource.create(
+        description: "just a resource",
+        lat: -23.559616,
+        lon: -46.731386,
+        status: "stopped",
+        collect_interval: 5,
+        uri: "example.com",
+        capabilities: [semaphore_actuator]
+      )
+    }
+    let!(:resource2) {
+      BasicResource.create(
+        description: "just another resource",
+        lat: -23,
+        lon: -46,
+        status: "live",
+        collect_interval: 20,
+        uri: "saojose.com",
+        capabilities: [temperature_sensor]
+      )
+    }
+    let!(:resource3) {
+      BasicResource.create(
+        description: "just another another resource",
+        lat: -42,
+        lon: -15,
+        status: "live",
+        collect_interval: 1,
+        uri: "nowhere.com",
+        capabilities: [parking_information]
+      )
+    }
+    let!(:resources) {
+      BasicResource.all
+    }
+    before :each do
+      get :search, params: { data: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"} }
+    end
+    context 'response' do
+      subject {response.status}
+      it { is_expected.to be 200 }
+    end
+    context 'result' do
+      subject { json["resources"] }
+      it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
+    end
+  end
 end

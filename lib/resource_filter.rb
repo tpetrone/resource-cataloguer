@@ -17,14 +17,14 @@ module SmartCities
 
     def filter_position resources, params
       if params[:lat].present? and params[:lon].present? and params[:radius].blank?
-        resources = resources.where(lat: params['lat'], lon: params['lon'])
+        resources = resources.where(lat: params[:lat], lon: params[:lon])
       end
       resources
     end
 
     def filter_distance resources, params
-      if params['lat'].present? and params['lon'].present? and params['radius'].present?
-        resources = resources.near([params['lat'],params['lon']], params['radius'])
+      if params[:lat].present? and params[:lon].present? and params[:radius].present?
+        resources = resources.near([params[:lat],params[:lon]], params[:radius], unit: :km)
       end
       resources
     end

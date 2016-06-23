@@ -1,4 +1,5 @@
 require 'notification'
+require 'resource_filter'
 
 class BasicResourcesController < ApplicationController
   include SmartCities::Notification
@@ -11,12 +12,12 @@ class BasicResourcesController < ApplicationController
     response = []
     begin
       @resources = BasicResource.all
-      simple_params.each do |k,v|
-        @resources = filter_resources @resources, k, v
-      end
       @resources = filter_capabilities @resources, params
       @resources = filter_position @resources, params
       @resources = filter_distance @resources, params
+      simple_params.each do |k,v|
+        @resources = filter_resources @resources, k, v
+      end
       @resources.each do |resource|
         response << {uuid: resource.uuid, lat: resource.lat, lon: resource.lon}
       end
