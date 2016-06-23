@@ -314,7 +314,7 @@ describe BasicResourcesController do
     }
     context "successful" do
       before :each do
-        get :search, params: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"}
+        get :search, params: {status: "stopped", lat:-23, lon:-46, radius: 200000, capability: "semaphore"}
       end
       context 'response' do
         subject {response.status}
@@ -329,7 +329,7 @@ describe BasicResourcesController do
       before :each do
         # simulate error
         expect(BasicResource).to receive(:all).and_raise
-        get :search, params: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"}
+        get :search, params: {status: "stopped", lat:-23, lon:-46, radius: 200000, capability: "semaphore"}
       end
       context 'response' do
         subject {response.status}
@@ -394,7 +394,7 @@ describe BasicResourcesController do
 
       context 'with lat, lon and radius' do
         before :each do
-          get :search, params: {lat: -23.4, lon: -46, radius: 200}
+          get :search, params: {lat: -23.4, lon: -46, radius: 200000}
         end
 
         context 'response' do

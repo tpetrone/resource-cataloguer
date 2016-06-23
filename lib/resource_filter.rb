@@ -24,7 +24,7 @@ module SmartCities
 
     def filter_distance resources, params
       if params[:lat].present? and params[:lon].present? and params[:radius].present?
-        resources = resources.near([params[:lat],params[:lon]], params[:radius], unit: :km)
+        resources = resources.near([params[:lat],params[:lon]], params[:radius].to_f/1000.0, unit: :km)
       end
       resources
     end
