@@ -314,7 +314,7 @@ describe BasicResourcesController do
     }
     context "successful" do
       before :each do
-        get :search, params: { data: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"} }
+        get :search, params: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"}
       end
       context 'response' do
         subject {response.status}
@@ -329,11 +329,86 @@ describe BasicResourcesController do
       before :each do
         # simulate error
         expect(BasicResource).to receive(:all).and_raise
-        get :search, params: { data: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"} }
+        get :search, params: {status: "stopped", lat:-23, lon:-46, radius: 200, capability: "semaphore"}
       end
       context 'response' do
         subject {response.status}
         it { is_expected.to be 422 }
+      end
+    end
+
+    context 'when params vary' do
+      context 'with only status' do
+        before :each do
+          get :search, params: {status: "stopped"}
+        end
+
+        context 'response' do
+          subject {response.status}
+          it { is_expected.to be 200 }
+        end
+
+        context 'result' do
+          subject { json["resources"] }
+
+          it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
+          it { is_expected.to_not include({ "uuid" => resource2.uuid, "lat" => resource3.lat, "lon" => resource2.lon}) }
+        end
+      end
+
+      context 'with capabilty' do
+        before :each do
+          get :search, params: {capability: "semaphore"}
+        end
+
+        context 'response' do
+          subject {response.status}
+          it { is_expected.to be 200 }
+        end
+
+        context 'result' do
+          subject { json["resources"] }
+
+          it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
+          it { is_expected.to_not include({ "uuid" => resource2.uuid, "lat" => resource3.lat, "lon" => resource2.lon}) }
+        end
+      end
+
+      context 'with lat and lon' do
+        before :each do
+          get :search, params: {lat: -23, lon: -46}
+        end
+
+        context 'response' do
+          subject {response.status}
+          it { is_expected.to be 200 }
+        end
+
+        context 'result' do
+          subject { json["resources"] }
+
+          it { is_expected.to include({ "uuid" => resource2.uuid, "lat" => resource2.lat, "lon" => resource2.lon}) }
+          it { is_expected.to_not include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
+        end
+      end
+
+      context 'with lat, lon and radius' do
+        before :each do
+          get :search, params: {lat: -23.4, lon: -46, radius: 200}
+        end
+
+        context 'response' do
+          subject {response.status}
+          it { is_expected.to be 200 }
+        end
+
+        context 'result', focus: true do
+          subject { json["resources"] }
+
+          it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
+          it { is_expected.to include({ "uuid" => resource2.uuid, "lat" => resource2.lat, "lon" => resource2.lon}) }
+          it { is_expected.to_not include({ "uuid" => resource3.uuid, "lat" => resource3.lat, "lon" => resource3.lon}) }
+        end
       end
     end
   end

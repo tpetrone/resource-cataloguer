@@ -97,11 +97,11 @@ class BasicResourcesController < ApplicationController
   private
 
     def search_params
-      params.require(:data).permit(:capability, :lat, :lon, :radius)
+      params.permit(:capability, :lat, :lon, :radius)
     end
 
     def simple_params
-      params.require(:data).permit(:status, :city, :neighborhood, :postal_code)
+      params.permit(:status, :city, :neighborhood, :postal_code)
     end
 
     def component_params
