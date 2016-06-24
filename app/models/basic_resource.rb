@@ -32,11 +32,13 @@ class BasicResource < ApplicationRecord
     self.capabilities.where(function: Capability.actuator_index).count > 0
   end
 
-  def to_json
+  def to_json(function = nil)
+    selected_capabilities = capabilities
+    selected_capabilities = capabilities.send('all_' + function.to_s) unless function.blank?
     hash = attributes.to_options
     hash[:capabilities] = []
-    capabilities.each do |cap|
-      hash[:capabilities] << cap.name + "_" + cap.function_symbol.to_s
+    selected_capabilities.each do |cap|
+      hash[:capabilities] << cap.name
     end
     hash
   end

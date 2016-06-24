@@ -38,7 +38,7 @@ describe BasicResourcesController do
         expect(json["data"]["status"]).to eq('stopped')
         expect(json["data"]["collect_interval"]).to eq(5)
         expect(json["data"]["description"]).to eq("I am a dummy sensor")
-        expect(json["data"]["capabilities"]).to eq(["temperature_sensor"])
+        expect(json["data"]["capabilities"]).to eq(["temperature"])
       end
 
       it 'is expected to automatically fill in location parameters' do
@@ -206,7 +206,7 @@ describe BasicResourcesController do
         expect(json['data']['status']).to eq(resource.status)
         expect(json['data']['collect_interval']).to eq(resource.collect_interval)
         expect(json['data']['description']).to eq(resource.description)
-        expect(json['data']['capabilities']).to eq(['temperature_sensor'])
+        expect(json['data']['capabilities']).to eq(['temperature'])
       end
     end
 
