@@ -19,7 +19,7 @@ class BasicResourcesController < ApplicationController
         @resources = filter_resources @resources, k, v
       end
       @resources.each do |resource|
-        response << {uuid: resource.uuid, lat: resource.lat, lon: resource.lon}
+        response << {uuid: resource.uuid, lat: resource.lat, lon: resource.lon, collect_interval: resource.collect_interval}
       end
       render json: {resources: response}, status: 200
     rescue

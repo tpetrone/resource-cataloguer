@@ -32,3 +32,8 @@ Capability.create_sensor(name: "temperature")
 Capability.create_sensor(name: "uv")
 Capability.create_sensor(name: "pollution")
 Capability.create_information(name: "info_green_percentage")
+
+# TrafficFlow
+Capability.create_sensor(name: "traffic_speed")
+Capability.create_sensor(name: "traffic_density")
+Capability.create_actuator(name: "traffic_light_status")

@@ -322,7 +322,7 @@ describe BasicResourcesController do
       end
       context 'result' do
         subject { json["resources"] }
-        it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
+        it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon, "collect_interval" => resource1.collect_interval}) }
       end
     end
     context "failure" do
@@ -351,8 +351,8 @@ describe BasicResourcesController do
         context 'result' do
           subject { json["resources"] }
 
-          it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
-          it { is_expected.to_not include({ "uuid" => resource2.uuid, "lat" => resource3.lat, "lon" => resource2.lon}) }
+          it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon, "collect_interval" => resource1.collect_interval}) }
+          it { is_expected.to_not include({ "uuid" => resource2.uuid, "lat" => resource3.lat, "lon" => resource2.lon, "collect_interval" => resource2.collect_interval}) }
         end
       end
 
@@ -369,8 +369,8 @@ describe BasicResourcesController do
         context 'result' do
           subject { json["resources"] }
 
-          it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
-          it { is_expected.to_not include({ "uuid" => resource2.uuid, "lat" => resource3.lat, "lon" => resource2.lon}) }
+          it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon, "collect_interval" => resource1.collect_interval}) }
+          it { is_expected.to_not include({ "uuid" => resource2.uuid, "lat" => resource3.lat, "lon" => resource2.lon, "collect_interval" => resource2.collect_interval}) }
         end
       end
 
@@ -387,8 +387,8 @@ describe BasicResourcesController do
         context 'result' do
           subject { json["resources"] }
 
-          it { is_expected.to include({ "uuid" => resource2.uuid, "lat" => resource2.lat, "lon" => resource2.lon}) }
-          it { is_expected.to_not include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
+          it { is_expected.to include({ "uuid" => resource2.uuid, "lat" => resource2.lat, "lon" => resource2.lon, "collect_interval" => resource2.collect_interval}) }
+          it { is_expected.to_not include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon, "collect_interval" => resource1.collect_interval}) }
         end
       end
 
@@ -405,9 +405,9 @@ describe BasicResourcesController do
         context 'result', focus: true do
           subject { json["resources"] }
 
-          it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon}) }
-          it { is_expected.to include({ "uuid" => resource2.uuid, "lat" => resource2.lat, "lon" => resource2.lon}) }
-          it { is_expected.to_not include({ "uuid" => resource3.uuid, "lat" => resource3.lat, "lon" => resource3.lon}) }
+          it { is_expected.to include({ "uuid" => resource1.uuid, "lat" => resource1.lat, "lon" => resource1.lon, "collect_interval" =>  resource1.collect_interval}) }
+          it { is_expected.to include({ "uuid" => resource2.uuid, "lat" => resource2.lat, "lon" => resource2.lon, "collect_interval" => resource2.collect_interval}) }
+          it { is_expected.to_not include({ "uuid" => resource3.uuid, "lat" => resource3.lat, "lon" => resource3.lon, "collect_interval" =>resource3.collect_interval}) }
         end
       end
     end
