@@ -45,9 +45,7 @@ class BasicResource < ApplicationRecord
 
   reverse_geocoded_by :lat, :lon do |obj, results|
     if geo = results.first
-      unless geo.postal_code.nil?
-        obj.postal_code = obj.complete_postal_code(results)
-      end
+      obj.postal_code = obj.complete_postal_code(results)
       obj.neighborhood = obj.get_neighborhood(geo.address_components)
       obj.city         = geo.city
       obj.state        = geo.state
