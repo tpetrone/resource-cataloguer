@@ -9,10 +9,10 @@ module SmartCities
           results.each do |result|
             result_pc = result.postal_code
             if pc == result_pc[0,5] and result_pc.length == 9
-              pc << result_pc[5,4]
-              break
+              return pc << result_pc[5,4]
             end 
           end
+          return pc << "-000"
         end
         pc
       rescue
