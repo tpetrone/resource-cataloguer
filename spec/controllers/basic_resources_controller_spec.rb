@@ -133,7 +133,7 @@ describe BasicResourcesController do
       it { expect(response.status).to eq(422) }
     end
 
-    context 'fails due to inexistant capability' do
+    context 'fails due to inexistent capability' do
       before :each do
         BasicResource.destroy_all
         post 'create',
