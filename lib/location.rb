@@ -1,8 +1,8 @@
 module SmartCities
 
-  module Location
+  class Location
 
-    def complete_postal_code(results)
+    def self.complete_postal_code(results)
       begin
         pc = results.first.postal_code
         if pc.length == 5
@@ -20,7 +20,7 @@ module SmartCities
       end
     end
 
-    def get_neighborhood(address)
+    def self.get_neighborhood(address)
       neighborhood = nil 
       address.each do |component|
         if component["types"].include? "sublocality"
