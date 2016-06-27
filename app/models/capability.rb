@@ -1,5 +1,6 @@
 class Capability < ApplicationRecord
   validates :function, inclusion: { in: 0..2 }
+  validates :name, uniqueness: true
   has_and_belongs_to_many :basic_resources
 
   @@TYPES = [:sensor, :actuator, :information]
