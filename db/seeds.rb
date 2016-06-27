@@ -25,6 +25,7 @@ Capability.create_information(name: "info_total_capacity")
 
 # ParkingSpot
 Capability.create_sensor(name: "spot_availability")
+Capability.create_sensor(name: "availability_schedules")
 
 # SportsMaps
 Capability.create_sensor(name: "humidity")
