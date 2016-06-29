@@ -38,3 +38,7 @@ Capability.create_information(name: "info_green_percentage")
 Capability.create_sensor(name: "traffic_speed")
 Capability.create_sensor(name: "traffic_density")
 Capability.create_actuator(name: "traffic_light_status")
+
+# ArduinoDemo
+Capability.create_actuator(name: "arduino_traffic_light")
+Capability.create_actuator(name: "arduino_luminosity")
