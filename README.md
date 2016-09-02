@@ -18,6 +18,17 @@ Environment Setup
 
 You should see all tests passing =)
 
+Docker Setup
+------------
+
+* Install Docker: (google it)
+* Run on terminal: ```$ docker pull debian:unstable```
+	* ```$ docker build -t smart-cities/resource-cataloguer . ```
+	* ```$ docker run -d -p 3000:3000 smart-cities/resource-cataloguer```
+
+Now you can access the application on http://localhost:3000
+
+
 Provides
 --------
 
