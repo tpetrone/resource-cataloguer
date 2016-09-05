@@ -24,7 +24,13 @@ Docker Setup
 * Install Docker: (google it)
 * Run on terminal: ```$ docker pull debian:unstable```
 	* ```$ docker build -t smart-cities/resource-cataloguer . ```
-	* ```$ docker run -d -p 3000:3000 smart-cities/resource-cataloguer```
+	* ```$ docker run -d -v <path_to_your_source_code>:/resource-cataloguer/ -p 3000:3000 smart-cities/resource-cataloguer```
+
+Docker flags:
+
+* -d : run the container as a daemon
+* -v : mount a volume from your host to container (share your source code with container)
+* -p : map the exposed port to your host (<host_port>:<container_port>)
 
 Now you can access the application on http://localhost:3000
 
