@@ -22,7 +22,8 @@ Docker Setup
 ------------
 
 * Install Docker: (google it)
-* Run on terminal: ```$ docker pull debian:unstable```
+* Run on terminal: 
+    * ```$ docker pull debian:unstable```
 	* ```$ docker build -t smart-cities/resource-cataloguer . ```
 	* ```$ docker run -d -v <path_to_your_source_code>:/resource-cataloguer/ -p 3000:3000 smart-cities/resource-cataloguer```
 
