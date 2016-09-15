@@ -1,6 +1,6 @@
-![Build Status](https://gitlab.com/smart-city-platform/resources-catalog/badges/master/build.svg)
+![Build Status](https://gitlab.com/smart-city-software-platform/resource-cataloguer/badges/master/build.svg)
 
-Resources Catalog API
+Resource Cataloguer API
 ====================
 
 Environment Setup
@@ -57,9 +57,9 @@ Needs
 Useful links
 ============
 
-* [Project description](https://social.stoa.usp.br/poo2016/projeto/projeto-plataforma-cidades-inteligentes) @ STOA
-* [Resources caralog service description](https://social.stoa.usp.br/poo2016/projeto/grupo-2-servico-de-catalogo-de-recursos) @ STOA
-* [Group Repository](https://gitlab.com/groups/smart-city-platform)
+* [Project description](https://social.stoa.usp.br/poo2016/projeto/projeto-plataforma-cidades-inteligentes)
+* [Resources caralog service description](https://gitlab.com/smart-city-software-platform/resource-cataloguer/wikis/home) 
+* [Group Repository](https://gitlab.com/groups/smart-city-software-platform)
 * [email list](https://groups.google.com/forum/#!forum/pci-lideres-equipe-de-organizacao-poo-ime-2016)
 
 Design questions
