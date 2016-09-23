@@ -2,5 +2,5 @@
 
 # do not include a final slash after the URL
 services:
-  collector: "http://localhost:3002"
-  actuator: "http://localhost:8081"
+  collector: "data-collector:3000"
+  actuator: "actuator-controller:8081"
