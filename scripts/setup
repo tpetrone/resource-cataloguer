@@ -1,18 +1,24 @@
-FILE_DIR=`dirname $0`
-BASE_DIR=`readlink -f $FILE_DIR/../`
-PROJECT_NAME='resource-cataloguer'
+#!/bin/sh
+
+FILE_DIR=`perl -e 'use Cwd "abs_path";print abs_path(shift)' $0`
+BASE_DIR=`dirname $FILE_DIR`
+PROJECT_NAME="resource-cataloguer"
 IMAGE_NAME=smart-cities/$PROJECT_NAME
 NETWORK='platform'
 
+CYAN='\033[0;36m'
+NC='\033[0m'
+RED='\033[0;31m'
+
 verify () {
   if [ $? != 0 ]; then
-    echo $1
+    echo "${RED}$1${NC}"
     exit 2
   fi
 }
 
 CURRENT_DIR=`pwd`
-cd $BASE_DIR
+cd $BASE_DIR/..
 
 sudo docker -v > /dev/null
 verify "Error: You need to install docker first!"
@@ -30,6 +36,9 @@ sudo docker network create $PLATFORM 2> /dev/null
 
 cd $CURRENT_DIR
 
-echo "To start the service run :"
-echo "   $ sh scripts/development.sh start"
-
+echo "${CYAN}"
+echo "####################################"
+echo "    To start the service run :"
+echo "    $ scripts/development start"
+echo "####################################"
+echo "${NC}"
