@@ -36,7 +36,7 @@ if [ "$1" = "start" ]; then
   fi
 
   sudo docker exec $PROJECT_NAME bundle exec rake db:migrate
-	verify "Cannot migrate database."
+  verify "Cannot migrate database."
 
   echo "${CYAN}"
   echo "############################################################"
@@ -71,7 +71,7 @@ if [ "$1" = "exec" ]; then
 
   shift
   command="sudo docker exec $PROJECT_NAME"
- 
+
 	for word in $@; do
     command="$command $word"
   done
