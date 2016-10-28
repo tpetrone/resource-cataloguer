@@ -45,4 +45,5 @@ end
 gem 'simplecov', :require => false, :group => :test
 gem 'rest-client'
 gem 'geocoder'
+gem 'will_paginate', '~> 3.1.0'
 

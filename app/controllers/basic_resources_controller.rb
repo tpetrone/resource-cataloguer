@@ -5,6 +5,8 @@ class BasicResourcesController < ApplicationController
   include SmartCities::Notification
   include SmartCities::ResourceFilter
 
+  before_action :set_page_params, only: [:index, :index_sensors, :index_actuators]
+
   # GET /resources/search
   # Errors
   # => 422 unprocessable entity
@@ -54,17 +56,19 @@ class BasicResourcesController < ApplicationController
 
   # GET /resources/
   def index
-    render json: {resources: BasicResource.all}
+    render json: {
+      resources: BasicResource.order('created_at DESC').page(@page).per_page(@per_page)
+    }
   end
 
   # GET /resources/sensors
   def index_sensors
-    render json: BasicResource.all_sensors
+    render json: BasicResource.all_sensors.order('created_at DESC').page(@page).per_page(@per_page)
   end
 
   # GET /resources/actuators
   def index_actuators
-    render json: BasicResource.all_actuators
+    render json: BasicResource.all_actuators.order('created_at DESC').page(@page).per_page(@per_page)
   end
 
   # GET /resources/:uuid
@@ -117,4 +121,12 @@ class BasicResourcesController < ApplicationController
       params.require(:data).permit(capabilities: [])
     end
 
+    def set_page_params
+      if params[:page]
+        @page = params[:page]
+      else
+        @page = 1
+      end
+      @per_page = 40
+    end
 end

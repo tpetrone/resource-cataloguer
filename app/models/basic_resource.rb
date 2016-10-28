@@ -41,6 +41,13 @@ class BasicResource < ApplicationRecord
     hash
   end
 
+  def as_json(options = { })
+    hash = super(options)
+    capabilities_list = self.capabilities.pluck(:name)
+    hash[:capabilities] = capabilities_list
+    hash
+  end
+
   reverse_geocoded_by :lat, :lon do |obj, results|
     if geo = results.first
       obj.postal_code  = SmartCities::Location.extract_postal_code(results)
