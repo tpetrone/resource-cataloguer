@@ -41,7 +41,7 @@ class BasicResourcesController < ApplicationController
       if capability_params[:capabilities].present?
         capability_params[:capabilities].each do |cap|
           query = Capability.where(name: cap)
-          raise if query.empty?
+          raise CapabilityNotFound if query.empty?
           resource.capabilities << query.take
         end
       end
