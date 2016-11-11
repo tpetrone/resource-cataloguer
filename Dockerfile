@@ -1,5 +1,5 @@
 FROM debian:unstable
-RUN apt update -qy && apt install ruby bundler libxml2 libsqlite3-dev libpq-dev postgresql postgresql-contrib -yq
+RUN apt update -qy && apt install ruby bundler libxml2 libsqlite3-dev zlib1g-dev liblzma-dev libpq-dev -yq
 RUN mkdir -p /resource-cataloguer/
 ADD . /resource-cataloguer/
 WORKDIR /resource-cataloguer/
