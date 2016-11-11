@@ -31,11 +31,11 @@ if [ "$1" = "start" ]; then
   sudo docker-compose exec $PROJECT_NAME rake db:create
   verify "Cannot create database."
 
-  sudo docker-compose exec $PROJECT_NAME rake db:seed
-  verify "Cannot seed database."
-
   sudo docker-compose exec $PROJECT_NAME rake db:migrate
   verify "Cannot migrate database."
+
+  sudo docker-compose exec $PROJECT_NAME rake db:seed
+  verify "Cannot seed database."
 
   echo "${CYAN}"
   echo "############################################################"
